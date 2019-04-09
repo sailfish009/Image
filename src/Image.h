@@ -1,5 +1,7 @@
 #pragma once
 
+#include <vector>
+
 #include <opencv2/opencv.hpp>
 #include <opencv2/highgui/highgui.hpp>
 #include <opencv2/imgproc/imgproc.hpp>
@@ -9,12 +11,8 @@
 #pragma comment(lib, "opencv_core401d.lib" )
 #pragma comment(lib, "opencv_imgproc401d.lib" )
 #pragma comment(lib, "opencv_highgui401d.lib" )
-// #pragma comment(lib, "opencv_ml401d.lib" )
-// #pragma comment(lib, "opencv_video401d.lib" )
-// #pragma comment(lib, "opencv_features2d401d.lib" )
-// #pragma comment(lib, "opencv_calib3d401d.lib" )
-// #pragma comment(lib, "opencv_imgcodecs401d.lib" )
-// #pragma comment(lib, "opencv_videoio401d.lib" )
+#pragma comment(lib, "opencv_videoio401d.lib" )
+#pragma comment(lib, "opencv_imgcodecs401d.lib" )
 
 using namespace cv;
 
@@ -24,7 +22,15 @@ public:
   Image();
   ~Image();
 
+private:
+  bool b_opened = false;
+  Mat image;
+  Mat bin;
+  Mat gray;
+
 public:
+  bool Open(const std::string& filepath);
+  bool GetVertex(std::vector<Point>& v);
 
 };
 
