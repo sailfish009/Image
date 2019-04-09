@@ -29,8 +29,8 @@ private:
   Mat gray;
 
 public:
-  bool Open(const std::string& filepath);
-  bool GetVertex(std::vector<Point>& v);
+  bool Open(const char* filepath);
+  bool Image::GetVertex(int(&x)[4], int(&y)[4]);
 
 };
 

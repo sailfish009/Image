@@ -10,7 +10,8 @@ set(CMAKE_CONFIGURATION_TYPES "Debug" CACHE STRING "" FORCE)
 include_directories(src)
 
 set(SOURCE
-    src/Image.cpp)
+    src/Image.cpp
+    src/Interface.cpp)
 
 add_library(image SHARED ${SOURCE})
 target_compile_features(image PRIVATE cxx_std_17)
