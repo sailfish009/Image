@@ -1,3 +1,29 @@
+//========================================================================
+// Image - OpenCV Wrapper DLL
+//------------------------------------------------------------------------
+// Copyright (c) 2019 Ji Wong Park <sailfish009@gmail.com>
+//
+// This software is provided 'as-is', without any express or implied
+// warranty. In no event will the authors be held liable for any damages
+// arising from the use of this software.
+//
+// Permission is granted to anyone to use this software for any purpose,
+// including commercial applications, and to alter it and redistribute it
+// freely, subject to the following restrictions:
+//
+// 1. The origin of this software must not be misrepresented; you must not
+//    claim that you wrote the original software. If you use this software
+//    in a product, an acknowledgment in the product documentation would
+//    be appreciated but is not required.
+//
+// 2. Altered source versions must be plainly marked as such, and must not
+//    be misrepresented as being the original software.
+//
+// 3. This notice may not be removed or altered from any source
+//    distribution.
+//
+//========================================================================
+
 #include "Image.h"
 
 
@@ -16,7 +42,7 @@ bool Image::Open(const char * filepath)
 {
   b_opened = false;
 
-  image = cv::imread(filepath);
+  image = imread(filepath);
   if (image.data == 0) 
   { 
     printf("Image File Open Error\n"); 
@@ -28,6 +54,28 @@ bool Image::Open(const char * filepath)
   cvtColor(image, gray, COLOR_BGR2GRAY);
   threshold(gray, bin, 127, 255, 0);
 
+  return true;
+}
+
+
+bool Image::SetMemory(int width, int height, unsigned char * data)
+{
+  b_opened = false;
+
+  try
+  {
+    image = Mat(height, width, CV_8UC4, (void *)data);
+  }
+  catch(...)
+  {
+    return false;
+  }
+  b_opened = true;
+
+  imwrite("2.png", image);
+
+  cvtColor(image, gray, COLOR_BGR2GRAY);
+  threshold(gray, bin, 127, 255, 0);
   return true;
 }
 
