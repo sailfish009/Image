@@ -30,7 +30,7 @@ private:
 
 public:
   bool Open(const char* filepath);
-  bool Image::GetVertex(int(&x)[4], int(&y)[4]);
+  bool GetVertex(int(&x)[4], int(&y)[4]);
 
 };
 
