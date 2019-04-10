@@ -49,10 +49,15 @@ bool Image::GetVertex(int(&x)[4], int(&y)[4])
     // to do exception
   } while (vertex.size() > 4);
 
-  for (int i = 0; vertex.size(); ++i)
+  int point_size = vertex.size();
+  if (point_size == 4)
   {
-    x[i] = vertex[i].x;
-    y[i] = vertex[i].y;
+    for (int i = 0; i < point_size; ++i)
+    {
+      x[i] = vertex[i].x;
+      y[i] = vertex[i].y;
+    }
+    return true;
   }
-  return true;
+  return false;
 }

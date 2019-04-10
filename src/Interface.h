@@ -2,11 +2,11 @@
 
 #include "Image.h"
 
-Image* Create();
+extern "C" Image* Create();
 
-void Dispose(Image* image_ptr);
+extern "C" void Dispose(Image* image_ptr);
 
-bool Open(Image* image_ptr, const char* filepath);
+extern "C" bool Open(Image* image_ptr, const char* filepath);
 
-bool GetVertex(Image* image_ptr, int(&x)[4], int(&y)[4]);
+extern "C" bool GetVertex(Image* image_ptr, int(&x)[4], int(&y)[4]);
 
