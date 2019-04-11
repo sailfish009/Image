@@ -90,22 +90,25 @@ bool Image::GetVertex(int(&x)[4], int(&y)[4])
   std::vector<std::vector<Point>> contours;
   std::vector<Vec4i> hierarchy;
   findContours(bin, contours, hierarchy, CV_RETR_TREE, CV_CHAIN_APPROX_SIMPLE, Point(0, 0));
-  do
+  if (hierarchy.size() != 0)
   {
-    ++p;
-    approxPolyDP(contours[0], vertex, p, true);
-    // to do exception
-  } while (vertex.size() > 4);
-
-  int point_size = vertex.size();
-  if (point_size == 4)
-  {
-    for (int i = 0; i < point_size; ++i)
+    do
     {
-      x[i] = vertex[i].x;
-      y[i] = vertex[i].y;
+      ++p;
+      approxPolyDP(contours[0], vertex, p, true);
+      // to do exception
+    } while (vertex.size() > 4);
+
+    int point_size = vertex.size();
+    if (point_size == 4)
+    {
+      for (int i = 0; i < point_size; ++i)
+      {
+        x[i] = vertex[i].x;
+        y[i] = vertex[i].y;
+      }
+      return true;
     }
-    return true;
   }
   return false;
 }
