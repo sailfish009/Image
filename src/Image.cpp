@@ -90,6 +90,7 @@ bool Image::GetVertex(int(&x)[4], int(&y)[4])
   std::vector<std::vector<Point>> contours;
   std::vector<Vec4i> hierarchy;
   findContours(bin, contours, hierarchy, CV_RETR_TREE, CV_CHAIN_APPROX_SIMPLE, Point(0, 0));
+  // even if in this case, have to chack valid range of vertex points.
   if (hierarchy.size() != 0)
   {
     do
