@@ -72,8 +72,6 @@ bool Image::SetMemory(int width, int height, unsigned char * data)
   }
   b_opened = true;
 
-  imwrite("2.png", image);
-
   cvtColor(image, gray, COLOR_BGR2GRAY);
   threshold(gray, bin, 127, 255, 0);
   return true;
@@ -85,29 +83,37 @@ bool Image::GetVertex(int(&x)[4], int(&y)[4])
   if (b_opened == false) return false;
 
   int count = 0;
-  double p = 0;
-  std::vector<Point> vertex;
   std::vector<std::vector<Point>> contours;
   std::vector<Vec4i> hierarchy;
-  findContours(bin, contours, hierarchy, CV_RETR_TREE, CV_CHAIN_APPROX_SIMPLE, Point(0, 0));
+  findContours(bin, contours, hierarchy, CV_RETR_CCOMP, CV_CHAIN_APPROX_SIMPLE, Point(0, 0));
   // even if in this case, have to chack valid range of vertex points.
-  if (hierarchy.size() != 0)
+  if ( (contours.size() > 0) && (hierarchy.size() > 0) )
   {
-    do
+    std::vector<Point> vertex;
+    double epsilon = 1;
+    approxPolyDP(Mat(contours[0]), vertex, epsilon, true);
+    if (vertex.size() >= 4)
     {
-      ++p;
-      approxPolyDP(contours[0], vertex, p, true);
-      // to do exception
-    } while (vertex.size() > 4);
-
-    int point_size = vertex.size();
-    if (point_size == 4)
-    {
-      for (int i = 0; i < point_size; ++i)
+      std::vector<int> vec_x;
+      std::vector<int> vec_y;
+      for (size_t i = 0; i < vertex.size(); ++i)
       {
-        x[i] = vertex[i].x;
-        y[i] = vertex[i].y;
+        vec_x.push_back(vertex[i].x);
+        vec_y.push_back(vertex[i].y);
       }
+      double min_x = *std::min_element(vec_x.begin(), vec_x.end());
+      double max_x = *std::max_element(vec_x.begin(), vec_x.end());
+      double min_y = *std::min_element(vec_y.begin(), vec_y.end());
+      double max_y = *std::max_element(vec_y.begin(), vec_y.end());
+
+      x[0] = min_x; y[0] = min_y;
+      x[1] = max_x; y[1] = min_y;
+      x[2] = max_x; y[2] = max_y;
+      x[3] = min_x; y[3] = max_y;
+
+      // Point p1 = Point(min_x, min_y);
+      // Point p2 = Point(max_x, max_y);
+      // rectangle(drawing, p1, p2, Scalar(0, 0, 255));
       return true;
     }
   }
